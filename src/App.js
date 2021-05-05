@@ -1,7 +1,15 @@
+import Footer from "./Components/Footer";
+import AddTodo from "./Components/AddTodo";
+import Navbar from "./Components/Navbar";
+import ListTodo from "./Components/ListTodo";
+
 function App() {
   return (
     <div>
-      <h1>Hello</h1>
+      <Navbar />
+      <AddTodo />
+
+      <Footer />
     </div>
   );
 }
