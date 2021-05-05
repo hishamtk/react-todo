@@ -1,6 +1,6 @@
 import ListTodo from "./ListTodo";
 
-function AddTodo() {
+function AddTodo({todos}) {
   return (
     <div className="container mx-auto p-4 md:w-3/5 w-4/5">
       <form>
@@ -25,7 +25,7 @@ function AddTodo() {
           </button>
         </div>
       </form>
-      <ListTodo />
+      <ListTodo todos={todos} />
     </div>
   );
 }
