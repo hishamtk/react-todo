@@ -1,11 +1,11 @@
 import Todo from "./Todo";
 
-function ListTodo({ todos }) {
+function ListTodo({ todos, deleteTodo }) {
   return (
-    <div className="mx-auto container mt-20">
+    <div className="mx-auto container mt-20 h-screen">
       <div className="flex flex-col">
         {todos.map((todo) => {
-          return <Todo todo={todo.title} />;
+          return <Todo todo={todo} deleteTodo={deleteTodo} />;
         })}
       </div>
     </div>

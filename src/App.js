@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Footer from "./Components/Footer";
 import AddTodo from "./Components/AddTodo";
 import Navbar from "./Components/Navbar";
+import ListTodo from "./Components/ListTodo";
 
 class App extends Component {
   constructor(props) {
@@ -31,11 +32,34 @@ class App extends Component {
     this.getTodoApi();
   };
 
+  deleteTodo = (id) => {
+    let todos = this.state.todos;
+    let newTodo = todos.filter((todo) => {
+      return todo.id !== id;
+    });
+    this.setState({ todos: newTodo });
+  };
+
+  addTodo = (todo) => {
+
+    let ts = Date.now();
+    console.log(ts, todo);
+    this.setState({
+      todos: this.state.todos.concat({ title: todo, id: ts, completed: false }),
+    });
+
+ 
+  };
+
   render() {
     return (
       <div>
         <Navbar />
-        <AddTodo todos={this.state.todos} />
+        <div className="container mx-auto p-4 md:w-3/5 w-4/5">
+          <AddTodo addTodo={this.addTodo} />
+
+          <ListTodo todos={this.state.todos} deleteTodo={this.deleteTodo} />
+        </div>
 
         <Footer />
       </div>
