@@ -36,8 +36,6 @@ class App extends Component {
     this.getTodoApi();
   };
 
-
-
   addTodo = (todo) => {
     let ts = Date.now();
     console.log(ts, todo);
@@ -59,16 +57,28 @@ class App extends Component {
     this.setState({ todos: newTodo });
   };
 
-  makeEditable = (id) =>{
+  makeEditable = (id) => {
     let todos = this.state.todos;
-    let newTodo = todos.map((todo)=>{
-      if(todo.id === id){
+    let newTodo = todos.map((todo) => {
+      if (todo.id === id) {
         todo.edit = true;
       }
       return todo;
-    })
-    this.setState({todo:newTodo})
-  }
+    });
+    this.setState({ todo: newTodo });
+  };
+
+  saveChange = (text, id) => {
+    let todos = this.state.todos;
+    let newTodo = todos.map((todo) => {
+      if (todo.id === id && todo.edit === true) {
+        todo.title = text;
+        todo.edit = false;
+      }
+      return todo;
+    });
+    this.setState({ todo: newTodo });
+  };
 
   render() {
     return (
@@ -77,7 +87,12 @@ class App extends Component {
         <div className="container mx-auto p-4 md:w-3/5 w-4/5">
           <AddTodo addTodo={this.addTodo} />
 
-          <ListTodo todos={this.state.todos} deleteTodo={this.deleteTodo} makeEditable={this.makeEditable} />
+          <ListTodo
+            todos={this.state.todos}
+            deleteTodo={this.deleteTodo}
+            makeEditable={this.makeEditable}
+            saveChange={this.saveChange}
+          />
         </div>
 
         <Footer />
