@@ -12,23 +12,32 @@ class App extends Component {
   }
 
   getTodoApi = async () => {
-    try {
-      let response = await fetch("https://jsonplaceholder.typicode.com/todos");
-      let res = await response.json();
+    const cacheTodo = localStorage.getItem("todo");
+    console.log(JSON.parse(cacheTodo));
+    if (cacheTodo !== null) {
+      this.setState({ todos: JSON.parse(cacheTodo) });
+    } else {
+      try {
+        let response = await fetch(
+          "https://jsonplaceholder.typicode.com/todos"
+        );
+        let res = await response.json();
 
-      // let data = res.filter((todo) => {
-      //   return todo.userId === 1;  // to get first user data
-      // });
+        // let data = res.filter((todo) => {
+        //   return todo.userId === 1;  // to get first user data
+        // });
 
-      let data = res.slice(0, 5); // get first 5 items
-      data = data.map((item) => {
-        item.edit = false;
-        return item;
-      });
+        let data = res.slice(0, 5); // get first 5 items
+        data = data.map((item) => {
+          item.edit = false;
+          return item;
+        });
 
-      this.setState({ todos: data });
-    } catch (error) {
-      console.error("Api call error", error);
+        this.setState({ todos: data });
+        localStorage.setItem("todo", JSON.stringify(data));
+      } catch (error) {
+        console.error("Api call error", error);
+      }
     }
   };
 
@@ -47,6 +56,7 @@ class App extends Component {
         edit: false,
       }),
     });
+    localStorage.setItem("todo", JSON.stringify(this.state.todos));
   };
 
   deleteTodo = (id) => {
@@ -55,6 +65,7 @@ class App extends Component {
       return todo.id !== id;
     });
     this.setState({ todos: newTodo });
+    localStorage.setItem("todo", JSON.stringify(newTodo));
   };
 
   makeEditable = (id) => {
@@ -66,6 +77,7 @@ class App extends Component {
       return todo;
     });
     this.setState({ todo: newTodo });
+    localStorage.setItem("todo", JSON.stringify(newTodo));
   };
 
   saveChange = (text, id) => {
@@ -78,6 +90,7 @@ class App extends Component {
       return todo;
     });
     this.setState({ todo: newTodo });
+    localStorage.setItem("todo", JSON.stringify(newTodo));
   };
 
   render() {
