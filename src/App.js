@@ -21,6 +21,10 @@ class App extends Component {
       // });
 
       let data = res.slice(0, 5); // get first 5 items
+      data = data.map((item) => {
+        item.edit = false;
+        return item;
+      });
 
       this.setState({ todos: data });
     } catch (error) {
@@ -32,6 +36,21 @@ class App extends Component {
     this.getTodoApi();
   };
 
+
+
+  addTodo = (todo) => {
+    let ts = Date.now();
+    console.log(ts, todo);
+    this.setState({
+      todos: this.state.todos.concat({
+        title: todo,
+        id: ts,
+        completed: false,
+        edit: false,
+      }),
+    });
+  };
+
   deleteTodo = (id) => {
     let todos = this.state.todos;
     let newTodo = todos.filter((todo) => {
@@ -40,16 +59,16 @@ class App extends Component {
     this.setState({ todos: newTodo });
   };
 
-  addTodo = (todo) => {
-
-    let ts = Date.now();
-    console.log(ts, todo);
-    this.setState({
-      todos: this.state.todos.concat({ title: todo, id: ts, completed: false }),
-    });
-
- 
-  };
+  makeEditable = (id) =>{
+    let todos = this.state.todos;
+    let newTodo = todos.map((todo)=>{
+      if(todo.id === id){
+        todo.edit = true;
+      }
+      return todo;
+    })
+    this.setState({todo:newTodo})
+  }
 
   render() {
     return (
@@ -58,7 +77,7 @@ class App extends Component {
         <div className="container mx-auto p-4 md:w-3/5 w-4/5">
           <AddTodo addTodo={this.addTodo} />
 
-          <ListTodo todos={this.state.todos} deleteTodo={this.deleteTodo} />
+          <ListTodo todos={this.state.todos} deleteTodo={this.deleteTodo} makeEditable={this.makeEditable} />
         </div>
 
         <Footer />

@@ -1,4 +1,3 @@
-import ListTodo from "./ListTodo";
 import React, { useState } from "react";
 
 function AddTodo({ addTodo }) {
