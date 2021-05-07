@@ -45,7 +45,7 @@ function Todo({ todo, deleteTodo, makeEditable, saveChange }) {
             />
           </div>
           <button
-            className="flex-shrink-0 mx-4 bg-blue-500 hover:bg-indigo-700 text-lg text-white py-3 px-5 rounded"
+            className="flex-shrink-0 mx-4 bg-green-500 hover:bg-indigo-700 text-lg text-white py-3 px-5 rounded"
             type="submit"
           >
             Save
