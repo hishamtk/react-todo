@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 
-import Footer from "./Components/Footer";
 import AddTodo from "./Components/AddTodo";
-import Navbar from "./Components/Navbar";
+import Alert from "./Components/Alert";
+import Footer from "./Components/Footer";
 import ListTodo from "./Components/ListTodo";
+import Navbar from "./Components/Navbar";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { todos: [] };
+    this.state = { todos: [], alert: null };
   }
 
   getTodoApi = async () => {
@@ -46,6 +47,9 @@ class App extends Component {
   };
 
   addTodo = (todo) => {
+    if (todo === "") {
+      return this.handleAlert("Todo should not be empty");
+    }
     let ts = Date.now();
     console.log(ts, todo);
     this.setState({
@@ -81,6 +85,9 @@ class App extends Component {
   };
 
   saveChange = (text, id) => {
+    if (text === "") {
+      return this.handleAlert("Todo should not be empty");
+    }
     let todos = this.state.todos;
     let newTodo = todos.map((todo) => {
       if (todo.id === id && todo.edit === true) {
@@ -93,11 +100,19 @@ class App extends Component {
     localStorage.setItem("todo", JSON.stringify(newTodo));
   };
 
+  handleAlert = (msg) => {
+    this.setState({ alert: msg });
+    setTimeout(() => {
+      this.setState({ alert: null });
+    }, 5000);
+  };
+
   render() {
     return (
       <div>
         <Navbar />
         <div className="container mx-auto p-4 md:w-3/5 w-4/5">
+          <Alert alert={this.state.alert} />
           <AddTodo addTodo={this.addTodo} />
 
           <ListTodo
