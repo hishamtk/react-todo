@@ -1,10 +1,15 @@
+import Page from "./Page";
 
-
-const Pagination = () => {
+const Pagination = ({ perPage, pages, currPage, showTodo, total }) => {
   return (
     <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
       <div className="flex-1 flex justify-between sm:hidden">
-        <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
+        <button
+          onClick={() => {
+            showTodo(currPage - 1);
+          }}
+          className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
+        >
           Previous
         </button>
         <button className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
@@ -14,9 +19,13 @@ const Pagination = () => {
       <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">1</span> to{" "}
-            <span className="font-medium">10</span> of{" "}
-            <span className="font-medium">97</span> results
+            Showing{" "}
+            <span className="font-medium">{(currPage - 1) * perPage + 1}</span>{" "}
+            to{" "}
+            <span className="font-medium">
+              {currPage * perPage < total ? currPage * perPage : total}
+            </span>{" "}
+            of <span className="font-medium">{total}</span> results
           </p>
         </div>
         <div>
@@ -40,28 +49,16 @@ const Pagination = () => {
                 />
               </svg>
             </button>
-            <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-              1
-            </button>
-            <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-              2
-            </button>
-            <button className="hidden md:inline-flex relative items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-              3
-            </button>
-            <span className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-              ...
-            </span>
-            <button className="hidden md:inline-flex relative items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-              8
-            </button>
-            <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-              9
-            </button>
-            <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-              10
-            </button>
-            <button className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+            {[...Array(pages)].map((page, index) => {
+              return <Page number={index + 1} showTodo={showTodo} />;
+            })}
+
+            <button
+              onClick={() => {
+                showTodo(currPage + 1);
+              }}
+              className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+            >
               <span className="sr-only">Next</span>
               <svg
                 className="h-5 w-5"

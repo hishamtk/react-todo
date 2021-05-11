@@ -12,18 +12,29 @@ const App = () => {
   const [alert, setAlert] = useState(null);
   const [pageTodo, setPageTodo] = useState([]);
   const [currPage, setCurrPage] = useState(1);
-  const perPage = 20;
+  const [pages, setPages] = useState(0);
+  const perPage = 18;
 
   useEffect(() => {
     getTodoApi();
   }, []);
 
+  useEffect(() => {
+    showTodo(1);
+    calcPages(todos, perPage);
+  }, [todos]);
+
+  const calcPages = (arr, perPage) => {
+    setPages(Math.ceil(arr.length / perPage));
+  };
+
   const showTodo = (pageNo) => {
-    if (pageNo < 1) {
+    if (pageNo < 1 || pageNo > pages) {
       return;
     }
-    console.log(todos);
+
     setPageTodo(todos.slice((pageNo - 1) * perPage, pageNo * perPage));
+    setCurrPage(pageNo);
   };
 
   const addTodo = (newTodo) => {
@@ -74,8 +85,6 @@ const App = () => {
         console.error("Api call error", error);
       }
     }
-
-    showTodo(2);
   };
 
   const handleAlert = (msg) => {
@@ -129,7 +138,13 @@ const App = () => {
           saveChange={saveChange}
         />
 
-        <Pagination />
+        <Pagination
+          pages={pages}
+          currPage={currPage}
+          perPage={perPage}
+          showTodo={showTodo}
+          total={todos.length}
+        />
       </div>
 
       <Footer />
