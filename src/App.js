@@ -130,7 +130,7 @@ const App = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mx-auto p-4 md:w-3/5 w-4/5 min-h-semi">
+      <div className="container mx-auto p-4 md:w-3/5 w-4/5 ">
         <Alert alert={alert} />
         <AddTodo addTodo={addTodo} />
 

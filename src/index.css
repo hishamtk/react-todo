@@ -3,6 +3,3 @@
 @tailwind components;
 @tailwind utilities;
 
-.min-h-semi {
-  min-height: 83vh;
-}
