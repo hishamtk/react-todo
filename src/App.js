@@ -10,31 +10,34 @@ import Pagination from "./Components/Pagination";
 const App = () => {
   const [todos, setTodos] = useState([]);
   const [alert, setAlert] = useState(null);
-  const [pageTodo, setPageTodo] = useState([]);
-  const [currPage, setCurrPage] = useState(1);
-  const [pages, setPages] = useState(0);
-  const perPage = 18;
+  const [pageTodo, setPageTodo] = useState([]); // show specific todo according to pagination
+  const [currPage, setCurrPage] = useState(1); // pagination to show the curr page
+  const [pages, setPages] = useState(0); // to track how many pages needed in pagination
+  const perPage = 20;
+
+  
 
   useEffect(() => {
     getTodoApi();
   }, []);
 
   useEffect(() => {
-    showTodo(1);
+    const showTodo = () => {
+      if (currPage < 1 || currPage > pages) {
+        return;
+      }
+
+      setPageTodo(todos.slice((currPage - 1) * perPage, currPage * perPage));
+    };
+    showTodo(currPage);
+  }, [currPage, pages, todos]);
+
+  useEffect(() => {
     calcPages(todos, perPage);
   }, [todos]);
 
   const calcPages = (arr, perPage) => {
     setPages(Math.ceil(arr.length / perPage));
-  };
-
-  const showTodo = (pageNo) => {
-    if (pageNo < 1 || pageNo > pages) {
-      return;
-    }
-
-    setPageTodo(todos.slice((pageNo - 1) * perPage, pageNo * perPage));
-    setCurrPage(pageNo);
   };
 
   const addTodo = (newTodo) => {
@@ -71,7 +74,7 @@ const App = () => {
         let response = await fetch(
           "https://jsonplaceholder.typicode.com/todos"
         );
-        let res = response.json();
+        let res = await response.json();
 
         let data = res; //.slice(0, 5); // get first 5 items
         data = data.map((item) => {
@@ -142,7 +145,7 @@ const App = () => {
           pages={pages}
           currPage={currPage}
           perPage={perPage}
-          showTodo={showTodo}
+          setCurrPage={setCurrPage}
           total={todos.length}
         />
       </div>
