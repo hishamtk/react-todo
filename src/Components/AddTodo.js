@@ -16,8 +16,8 @@ function AddTodo({ addTodo }) {
   return (
     <form onSubmit={handleSubmit}>
       <label
-        class="block tracking-wide text-gray-700 text-xl font-bold mb-2"
-        for="todo"
+        className="block tracking-wide text-gray-700 text-xl font-bold mb-2"
+        htmlFor="todo"
       >
         Todo List
       </label>
