@@ -13,7 +13,7 @@ const App = () => {
   const [pageTodo, setPageTodo] = useState([]); // show specific todo according to pagination
   const [currPage, setCurrPage] = useState(1); // pagination to show the curr page
   const [pages, setPages] = useState(0); // to track how many pages needed in pagination
-  const perPage = 5;
+  const perPage = 15;
 
   useEffect(() => {
     getTodoApi();
@@ -73,7 +73,7 @@ const App = () => {
         );
         let res = await response.json();
 
-        let data = res.slice(0, 15); // get first 15 items
+        let data = res.slice(0, 30); // get first 30 items
         data = data.map((item) => {
           item.edit = false;
           return item;
