@@ -3,7 +3,7 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     minHeight: {
-      semi: "50vh",
+      semi: "55vh",
     },
   },
   variants: {
