@@ -15,8 +15,6 @@ const App = () => {
   const [pages, setPages] = useState(0); // to track how many pages needed in pagination
   const perPage = 5;
 
-  
-
   useEffect(() => {
     getTodoApi();
   }, []);
@@ -45,10 +43,9 @@ const App = () => {
       return handleAlert("Todo should not be empty");
     }
     let ts = Date.now();
-    setTodos([
-      { title: newTodo, id: ts, completed: false, edit: false },
-      ...todos,
-    ]);
+    setTodos(
+      todos.concat({ title: newTodo, id: ts, completed: false, edit: false })
+    );
     // setTodos(
     //   [{ title: newTodo, id: ts, completed: false, edit: false }].concat(todos)
     // );
