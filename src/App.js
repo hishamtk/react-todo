@@ -8,6 +8,7 @@ import Navbar from "./Components/Navbar";
 import Pagination from "./Components/Pagination";
 
 const App = () => {
+
   const [todos, setTodos] = useState([]);
   const [alert, setAlert] = useState(null);
   const [pageTodo, setPageTodo] = useState([]); // show specific todo according to pagination
@@ -31,12 +32,16 @@ const App = () => {
   }, [currPage, pages, todos]);
 
   useEffect(() => {
+    const calcPages = (arr, perPage) => {
+      let total = pages;
+      let newPages = Math.ceil(arr.length / perPage);
+      setPages(newPages);
+      if (total > newPages && newPages > 0) {
+        setCurrPage(newPages);
+      }
+    };
     calcPages(todos, perPage);
-  }, [todos]);
-
-  const calcPages = (arr, perPage) => {
-    setPages(Math.ceil(arr.length / perPage));
-  };
+  }, [pages, todos]);
 
   const addTodo = (newTodo) => {
     if (newTodo === "") {
@@ -59,6 +64,7 @@ const App = () => {
       return todo.id !== id;
     });
     setTodos(newTodos);
+
     localStorage.setItem("todo", JSON.stringify(newTodos));
   };
 
@@ -74,7 +80,7 @@ const App = () => {
         );
         let res = await response.json();
 
-        let data = res.slice(0, 25); // get first 15 items
+        let data = res.slice(0, 15); // get first 15 items
         data = data.map((item) => {
           item.edit = false;
           return item;

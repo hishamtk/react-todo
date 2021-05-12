@@ -6,13 +6,22 @@ const Pagination = ({ perPage, pages, currPage, setCurrPage, total }) => {
       <div className="flex-1 flex justify-between sm:hidden">
         <button
           onClick={() => {
-            setCurrPage(currPage - 1);
+            if (currPage - 1 > 0) {
+              setCurrPage(currPage - 1);
+            }
           }}
           className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
         >
           Previous
         </button>
-        <button className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500">
+        <button
+          onClick={() => {
+            if (currPage + 1 <= pages) {
+              setCurrPage(currPage + 1);
+            }
+          }}
+          className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
+        >
           Next
         </button>
       </div>
@@ -20,8 +29,7 @@ const Pagination = ({ perPage, pages, currPage, setCurrPage, total }) => {
         <div>
           <p className="text-sm text-gray-700">
             Showing{" "}
-            <span className="font-medium">{(currPage - 1) * perPage + 1}</span>{" "}
-            to{" "}
+            <span className="font-medium">{(currPage - 1) * perPage}</span> to{" "}
             <span className="font-medium">
               {currPage * perPage < total ? currPage * perPage : total}
             </span>{" "}
@@ -33,7 +41,14 @@ const Pagination = ({ perPage, pages, currPage, setCurrPage, total }) => {
             className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
             aria-label="Pagination"
           >
-            <button className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+            <button
+              onClick={() => {
+                if (currPage - 1 > 0) {
+                  setCurrPage(currPage - 1);
+                }
+              }}
+              className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+            >
               <span className="sr-only">Previous</span>
               <svg
                 className="h-5 w-5"
@@ -55,7 +70,9 @@ const Pagination = ({ perPage, pages, currPage, setCurrPage, total }) => {
 
             <button
               onClick={() => {
-                setCurrPage(currPage + 1);
+                if (currPage + 1 <= pages) {
+                  setCurrPage(currPage + 1);
+                }
               }}
               className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
             >
